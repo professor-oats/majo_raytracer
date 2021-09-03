@@ -40,6 +40,7 @@ int main() {
     const int max_depth = 50;
 
     // World
+    auto R = cos(pi/4);
     hittable_list world;
 
     // Make shared so the pointer points uses attributes of both sphere and material
@@ -51,20 +52,19 @@ int main() {
     world.add(make_shared<sphere>(point3(0.0, -100.5, -1.0), 100.0, material_ground));
     world.add(make_shared<sphere>(point3(0.0, 0.0, -1.0), 0.5, material_center));
     world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), 0.5, material_left));
+    world.add(make_shared<sphere>(point3(-1.0, 0.0, -1.0), -0.45, material_left));
     world.add(make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, material_right));
 
     // Camera
-    camera cam;
 
-/*    auto viewport_height = 2.0;
-    auto viewport_width = aspect_ratio * viewport_height;
-    auto focal_length = 1.0;
+    point3 lookfrom(3,3,2);
+    point3 lookat(0,0,-1);
+    vec3 vup(0,1,0);
+    auto dist_to_focus = (lookfrom-lookat).length();
+    auto aperture = 2.0;
 
-    auto origin = point3(0, 0, 0);
-    auto horizontal = vec3(viewport_width, 0, 0);
-    auto vertical = vec3(0, viewport_height, 0);
-    auto lower_left_corner = origin - horizontal/2 - vertical/2 - vec3(0, 0, focal_length);
-*/
+    camera cam(lookfrom, lookat, vup, 20, aspect_ratio, aperture, dist_to_focus);
+
     // Render
 
     std::cout << "P3\n" << image_width << ' ' << image_height << "\n255\n";

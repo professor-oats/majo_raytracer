@@ -5,6 +5,7 @@
 #include <iostream>
 
 using std::sqrt;
+using std::fabs;
 
 // Will be using double cause low end specs
 
@@ -91,14 +92,16 @@ inline vec3 operator-(const vec3 &u, const vec3 &v) {
     return vec3(u.e[0] - v.e[0], u.e[1] - v.e[1], u.e[2] - v.e[2]);
 }
 
-//vector multiplication
 inline vec3 operator*(const vec3 &u, const vec3 &v) {
     return vec3(u.e[0] * v.e[0], u.e[1] * v.e[1], u.e[2] * v.e[2]);
 }
 
-//vector v multiplied by double t value
 inline vec3 operator*(double t, const vec3 &v) {
     return vec3(t*v.e[0], t*v.e[1], t*v.e[2]);
+}
+
+inline vec3 operator*(const vec3 &v, double t) {
+    return t * v;
 }
 
 inline vec3 operator/(vec3 v, double t) {
@@ -145,6 +148,14 @@ vec3 refract(const vec3& uv, const vec3& n, double etai_over_etat) {
     vec3 r_out_perp = etai_over_etat * (uv + cos_theta*n);
     vec3 r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
     return r_out_perp + r_out_parallel;
+}
+
+vec3 random_in_unit_disk() {
+    while (true) {
+	auto p = vec3(random_double(-1,1), random_double(-1,1), 0);
+	if (p.length_squared() >= 1) continue;
+	return p;
+    }
 }
 
 #endif
