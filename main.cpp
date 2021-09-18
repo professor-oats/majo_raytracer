@@ -7,6 +7,7 @@
 #include "material.h"
 #include "moving_sphere.h"
 #include "aarect.h"
+#include "box.h"
 
 #include <iostream>
 
@@ -152,6 +153,9 @@ hittable_list cornell_box() {
     objects.add(make_shared<xz_rect>(0, 555, 0, 555, 0, white));
     objects.add(make_shared<xz_rect>(0, 555, 0, 555, 555, white));
     objects.add(make_shared<xy_rect>(0, 555, 0, 555, 555, white));
+    objects.add(make_shared<box>(point3(130, 0, 65), point3(295, 165, 230), white));
+    objects.add(make_shared<box>(point3(265, 0, 295), point3(430, 330, 460), white));
+
 
     return objects;
 }
@@ -159,15 +163,14 @@ hittable_list cornell_box() {
 int main() {
 
 
-    // World
-    //auto R = cos(pi/4);
-    //auto world = random_scene();
+    // World  - Setting initialised values in world and image for some of the variables. Before this they were consts but now they must be changed for each setting in the switches
 
     hittable_list world;
     point3 lookfrom;
     point3 lookat;
-    auto vfov = 40.0;
-    auto aperture = 0.0;
+    auto vfov = 20.0; 	    //vfov acting as a zoom specified in degrees. It changes the height of the viewport and the width of the viewport depends on height.
+
+    auto aperture = 0.0;    // Depth of field or defocus blur
     color background(0,0,0);
 
     // Image
